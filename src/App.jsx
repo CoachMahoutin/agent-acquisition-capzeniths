@@ -1313,10 +1313,9 @@ export default function App() {
         <div className="navbar-logo">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
             <circle cx="16" cy="16" r="16" fill="#2D0A3E"/>
-            <rect x="8" y="9" width="16" height="2.5" rx="1.25" fill="#F5A623"/>
-            <rect x="8" y="14" width="16" height="2.5" rx="1.25" fill="#F5A623"/>
-            <rect x="8" y="19" width="9" height="2.5" rx="1.25" fill="#F5A623"/>
-            <polygon points="21,17 26,22 21,27 16,22" fill="#F5A623"/>
+            <rect x="8" y="18" width="4" height="7" rx="1" fill="#F5A623"/>
+            <rect x="14" y="13" width="4" height="12" rx="1" fill="#F5A623"/>
+            <rect x="20" y="8" width="4" height="17" rx="1" fill="#F5A623"/>
           </svg>
           <div>
             <div className="navbar-title">
