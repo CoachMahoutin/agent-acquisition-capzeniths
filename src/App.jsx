@@ -631,6 +631,48 @@ function injectStyles() {
       from { transform: translateY(16px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+
+    /* ── RESPONSIVE MOBILE ── */
+    @media (max-width: 480px) {
+      .navbar { padding: 0 14px; height: 56px; }
+      .navbar-title { font-size: 0.95rem; }
+      .navbar-subtitle { display: none; }
+      .navbar-badge { font-size: 0.6rem; padding: 3px 7px; }
+
+      .hero { padding: 32px 16px 28px; }
+      .hero h1 { font-size: 1.5rem; }
+      .hero p { font-size: 0.83rem; }
+
+      .tab { padding: 12px 12px; font-size: 0.76rem; gap: 5px; }
+      .tab-num { display: none; }
+
+      .main { padding: 20px 12px 48px; }
+
+      .section-icon { width: 40px; height: 40px; font-size: 1.1rem; }
+      .section-header h2 { font-size: 1.15rem; }
+      .section-header p { font-size: 0.78rem; }
+
+      .result-header { padding: 12px 14px; flex-direction: column; align-items: flex-start; }
+      .result-header h3 { font-size: 0.88rem; }
+      .result-body { padding: 16px 14px; }
+
+      .accroche-types { grid-template-columns: repeat(2, 1fr); }
+      .objections-grid { grid-template-columns: 1fr 1fr; }
+
+      .btn-generate { font-size: 0.83rem; padding: 12px 16px; }
+      .steps-row { gap: 7px; }
+      .step-badge { padding: 6px 10px; font-size: 0.75rem; }
+
+      .message-bubble { font-size: 0.83rem; padding: 12px 13px; }
+      .message-meta { flex-wrap: wrap; gap: 6px; }
+      .objection-result { padding: 12px; }
+      .accroche-result { padding: 12px; }
+
+      .tip-box { font-size: 0.78rem; padding: 12px 13px; }
+      .loading-box { padding: 28px 16px; }
+
+      .toast { right: 12px; bottom: 16px; font-size: 0.78rem; padding: 8px 14px; }
+    }
   `;
   document.head.appendChild(style);
 }
@@ -1313,9 +1355,10 @@ export default function App() {
         <div className="navbar-logo">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
             <circle cx="16" cy="16" r="16" fill="#2D0A3E"/>
-            <rect x="8" y="18" width="4" height="7" rx="1" fill="#F5A623"/>
-            <rect x="14" y="13" width="4" height="12" rx="1" fill="#F5A623"/>
-            <rect x="20" y="8" width="4" height="17" rx="1" fill="#F5A623"/>
+            <rect x="7" y="19" width="4" height="6" rx="0.8" fill="#F5A623"/>
+            <rect x="13" y="15" width="4" height="10" rx="0.8" fill="#F5A623"/>
+            <rect x="19" y="11" width="4.5" height="14" rx="0.8" fill="#F5A623"/>
+            <polygon points="21.25,4 22.2,7 25.3,7 22.8,8.8 23.7,11.8 21.25,10 18.8,11.8 19.7,8.8 17.2,7 20.3,7" fill="#F5A623"/>
           </svg>
           <div>
             <div className="navbar-title">
