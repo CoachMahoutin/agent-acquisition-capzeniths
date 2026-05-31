@@ -115,6 +115,8 @@ function injectStyles() {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      display: flex;
+      justify-content: center;
     }
     .tabs-wrapper::-webkit-scrollbar { display: none; }
     .tabs {
@@ -677,6 +679,20 @@ function injectStyles() {
   document.head.appendChild(style);
 }
 
+// ─── SYNC SUPABASE ────────────────────────────────────────────────────────────
+
+async function syncToSupabase(table, data, agent) {
+  try {
+    await fetch('/api/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ table, action: 'insert', data, agent }),
+    });
+  } catch (e) {
+    console.warn('Sync Supabase échouée:', e.message);
+  }
+}
+
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 
 const SECTEURS = [
@@ -771,6 +787,11 @@ function ModuleLinkedIn({ onToast }) {
       const prompt = `Secteur: ${secteur} | Situation: ${situation} | Tonalité: ${tonalite}${poste ? ` | Poste cible: ${poste}` : ''}. Génère 4 messages LinkedIn progressifs pour prospecter ce profil vers un diagnostic CapZéniths gratuit.`;
       const data = await callAPI(sys, prompt);
       setResult(data);
+      await syncToSupabase('prospects', {
+        secteur, situation, type_action: 'message_linkedin',
+        canal: 'linkedin', tonalite, statut: 'contacté',
+        date_contact: new Date().toISOString().slice(0, 10),
+      }, 'acquisition');
     } catch (e) {
       setError(e.message);
     } finally {
@@ -913,6 +934,11 @@ function ModuleSequence({ onToast }) {
       const data = await callAPI(sys, prompt);
       setResult(data);
       setActiveStep(0);
+      await syncToSupabase('prospects', {
+        secteur, situation, type_action: 'sequence',
+        canal, statut: 'contacté',
+        date_contact: new Date().toISOString().slice(0, 10),
+      }, 'acquisition');
     } catch (e) {
       setError(e.message);
     } finally {
@@ -1067,6 +1093,11 @@ function ModuleObjections({ onToast }) {
       const prompt = `Secteur: ${secteur || 'TPE/PME générales'} | Objections à traiter: ${selected.join(' | ')}. Génère des réponses percutantes style CapZéniths.`;
       const data = await callAPI(sys, prompt);
       setResult(data);
+      await syncToSupabase('evenements', {
+        agent: 'acquisition', type_event: 'generation',
+        description: `Anti-objections: ${selected.join(', ')}`,
+        metadata: { secteur, objections: selected },
+      }, 'acquisition');
     } catch (e) {
       setError(e.message);
     } finally {
@@ -1206,6 +1237,12 @@ function ModuleAccroches({ onToast }) {
       const prompt = `Types d'accroches: ${types}${secteur ? ` | Secteur cible: ${secteur}` : ''}${pilier ? ` | Pilier CapZéniths: ${pilier}` : ''}. Génère ${selectedTypes.length} accroche${selectedTypes.length > 1 ? 's' : ''} LinkedIn pour attirer des dirigeants TPE/PME.`;
       const data = await callAPI(sys, prompt);
       setResult(data);
+      await syncToSupabase('contenus', {
+        titre: `Accroche LinkedIn - ${selectedTypes.join(', ')}`,
+        type_contenu: 'post_linkedin', canal: 'linkedin',
+        pilier: pilier || null,
+        date_pub: new Date().toISOString().slice(0, 10),
+      }, 'acquisition');
     } catch (e) {
       setError(e.message);
     } finally {
